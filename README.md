@@ -62,7 +62,7 @@ az network nsg rule create \
 ## 4. Conectar na VM via SSH
 
 ```bash
-ssh admlnx@4.201.155.153
+ssh admlnx@4.201.201.207
 ```
 
 ## 5. Instalar Docker na VM
@@ -77,30 +77,37 @@ sudo apt upgrade -y
 - Instalar pacotes de pré-requisito:
 
 ```bash
-sudo apt install apt-transport-https ca-certificates curl software-properties-common gnupg -y
+sudo apt install -y apt-transport-https ca-certificates curl gnupg software-properties-common
+```
+
+- Criar diretório para a chave GPG do Docker:
+
+```bash
+sudo install -m 0755 -d /etc/apt/keyrings
 ```
 
 - Adicionar chave GPG oficial do Docker:
 
 ```bash
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 ```
 
 - Adicionar repositório Docker:
 
 ```bash
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
-  https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 
-- Atualizar pacotes e instalar Docker:
+- Atualizar índice de pacotes novamente para incluir repositório Docker:
 
 ```bash
 sudo apt update
-sudo apt install docker-ce docker-ce-cli containerd.io -y
+```
+
+- Instalar Docker e plugins recomendados:
+
+```bash
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
 - Verificar se Docker está ativo:
