@@ -85,7 +85,7 @@ sudo apt install docker-ce docker-ce-cli containerd.io -y
 sudo systemctl status docker
 ```
 
-## 6. Scripts Auxiliares
+## 6. Scripts Testes
 
 ### Redimensionar VM
 
