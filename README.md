@@ -23,7 +23,9 @@ az vm create \
   --admin-password Chall@557505
 ```
 
-## 3. Criar Regra NSG para Porta 80
+## 3. Criar regras NSG para Portas
+
+### 3.1. Regra NSG para Porta 80 (HTTP)
 
 ```bash
 az network nsg rule create \
@@ -33,6 +35,28 @@ az network nsg rule create \
   --protocol tcp \
   --priority 1010 \
   --destination-port-range 80
+```
+### 3.2. Regra NSG para Porta 8080
+
+```bash
+az network nsg rule create \
+  --resource-group rg-vmubuntu-challenge \
+  --nsg-name nsgsr-linux \
+  --name port_8080 \
+  --protocol tcp \
+  --priority 1020 \
+  --destination-port-range 8080
+```
+### 3.3. Regra NSG para Porta 443 (HTTPS)
+
+```bash
+az network nsg rule create \
+  --resource-group rg-vmubuntu-challenge \
+  --nsg-name nsgsr-linux \
+  --name port_443 \
+  --protocol tcp \
+  --priority 1030 \
+  --destination-port-range 443
 ```
 
 ## 4. Conectar na VM via SSH
